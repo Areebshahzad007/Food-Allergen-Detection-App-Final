@@ -8,12 +8,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class activity_product_details extends AppCompatActivity {
+public class ProductDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class activity_product_details extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navigate back to Home Screen
-                Intent homeIntent = new Intent(activity_product_details.this, MainActivity.class);
+                Intent homeIntent = new Intent(ProductDetailsActivity.this, MainActivity.class);
                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(homeIntent);
             }

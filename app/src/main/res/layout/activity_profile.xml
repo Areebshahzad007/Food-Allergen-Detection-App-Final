@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -33,7 +34,7 @@
         android:padding="12dp"
         android:layout_marginBottom="16dp"
         android:importantForAccessibility="yes"
-        android:contentDescription="User name input field"
+
         android:textSize="16sp" />
 
     <TextView
@@ -94,6 +95,6 @@
         android:layout_height="wrap_content"
         android:text="Save Profile"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="20dp"/>
 
 </LinearLayout>
