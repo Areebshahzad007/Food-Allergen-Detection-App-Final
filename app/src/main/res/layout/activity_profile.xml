@@ -1,100 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Title TextView -->
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:paddingBottom="20dp" />
-
-    <!-- User Name Field -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name:"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
-
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="name"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"
-        android:importantForAccessibility="yes"
-
-        android:textSize="16sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email:"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
-
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Allergies Section -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Select your allergies:"
-        android:textSize="16sp"
-        android:paddingBottom="8dp" />
-
-    <!-- Allergy: Milk -->
-    <CheckBox
-        android:id="@+id/cb_milk"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Milk"
-        android:paddingEnd="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Allergy: Peanuts -->
-    <CheckBox
-        android:id="@+id/cb_peanuts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Peanuts"
-        android:paddingEnd="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Allergy: Gluten -->
-    <CheckBox
-        android:id="@+id/cb_gluten"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gluten"
-        android:paddingEnd="16dp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Save Button -->
-    <Button
-        android:id="@+id/btn_save_profile"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Profile"
-        android:textSize="16sp"
-        android:layout_marginTop="20dp"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:paddingBottom="20dp" />
+
+        <!-- User Name Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:importantForAccessibility="yes"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Allergies Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select your allergies:"
+            android:textSize="16sp"
+            android:paddingBottom="8dp" />
+
+        <!-- Allergy: Milk -->
+        <CheckBox
+            android:id="@+id/cb_milk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Milk"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Peanuts -->
+        <CheckBox
+            android:id="@+id/cb_peanuts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Peanuts"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Gluten -->
+        <CheckBox
+            android:id="@+id/cb_gluten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gluten"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Eggs -->
+        <CheckBox
+            android:id="@+id/cb_eggs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eggs"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Shellfish -->
+        <CheckBox
+            android:id="@+id/cb_shellfish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shellfish"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Nuts -->
+        <CheckBox
+            android:id="@+id/cb_nuts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nuts"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Soy -->
+        <CheckBox
+            android:id="@+id/cb_soy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soy"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Wheat -->
+        <CheckBox
+            android:id="@+id/cb_wheat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wheat"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Dairy -->
+        <CheckBox
+            android:id="@+id/cb_dairy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dairy"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Allergy: Lactose -->
+        <CheckBox
+            android:id="@+id/cb_lactose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lactose"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Save Button -->
+        <Button
+            android:id="@+id/btn_save_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Profile"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+</android.widget.ScrollView>

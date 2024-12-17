@@ -2,7 +2,6 @@ package com.example.foodallergendetection;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -17,16 +16,13 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.Barcode;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.common.InputImage;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Handler;
 
 public class BarcodeScannerActivity extends AppCompatActivity {
 
@@ -90,7 +86,7 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                         if (barcodeValue != null) {
                             // Once a barcode is scanned, pass the barcode to the product details screen
                             Intent intent = new Intent(BarcodeScannerActivity.this, ProductDetailsActivity.class);
-                            intent.putExtra("barcode_value", barcodeValue);
+                            intent.putExtra("BARCODE_VALUE", barcodeValue);
                             startActivity(intent);
                             finish(); // Close the scanner activity
                             break;

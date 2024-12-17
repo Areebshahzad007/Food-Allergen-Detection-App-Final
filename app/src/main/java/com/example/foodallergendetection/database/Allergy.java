@@ -10,4 +10,10 @@ public class Allergy {
 
     public String name;  // Allergy name, e.g., "Milk"
     public boolean isAllergic; // Whether the user is allergic to this
+
+    // Constructor with parameters for name and isAllergic
+    public Allergy(String name, boolean isAllergic) {
+        this.name = name;
+        this.isAllergic = isAllergic;
+    }
 }
