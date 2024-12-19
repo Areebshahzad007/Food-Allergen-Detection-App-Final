@@ -62,6 +62,9 @@ public class ProfileActivity extends AppCompatActivity {
             user.email = email;
             db.userProfileDao().insertUser(user);
 
+            // Clear the existing allergies from the database
+            db.allergyDao().deleteAllAllergies();
+
             // Save allergies
             List<Allergy> allergies = getAllergiesFromUI();
             db.allergyDao().insertAllergies(allergies);

@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+
     namespace 'com.example.foodallergendetection'
     compileSdk 34
 
@@ -26,6 +27,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 dependencies {
@@ -40,7 +48,6 @@ dependencies {
     androidTestImplementation libs.espresso.core
     implementation 'com.google.mlkit:barcode-scanning:17.0.0'
     implementation 'androidx.camera:camera-core:1.4.1'
-    implementation 'androidx.camera:camera-camera2:1.4.1'
     implementation 'androidx.camera:camera-lifecycle:1.4.1'
     implementation 'androidx.camera:camera-view:1.4.1'
     implementation 'androidx.recyclerview:recyclerview:1.3.2' // For lists
@@ -49,8 +56,10 @@ dependencies {
     // Retrofit for making API requests
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     // Gson for parsing the API response
     implementation 'com.google.code.gson:gson:2.8.8'
+    // for sending otp mails
+    implementation 'com.sendgrid:sendgrid-java:4.7.0'
 
 }

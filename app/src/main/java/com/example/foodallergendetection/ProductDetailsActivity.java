@@ -30,6 +30,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("ProductDetails", "onCreate called");
         setContentView(R.layout.activity_product_details);
 
         // Initialize the database instance
@@ -37,8 +38,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
         // Get Barcode Value from Intent
         Intent intent = getIntent();
-        //String barcode = intent.getStringExtra("BARCODE_VALUE");
-        String barcode = "7622210449283"; // Example barcode for testing purposes
+        String barcode = intent.getStringExtra("BARCODE_VALUE");
+        //String barcode = "7622210449283"; // Example barcode for testing purposes
 
         // Handle invalid barcode
         if (barcode == null || barcode.isEmpty()) {
@@ -65,15 +66,15 @@ public class ProductDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<ProductResponse> call, Response<ProductResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Product product = response.body().getProduct();
-                    Log.d("ProductDetails", "API Response: " + response.body());
                     Log.d("ProductDetails", "API Response: " + response.body().toString());
-                    Log.d("ProductDetails", "API Response: " + response.body().getProduct());
 
 
                     // Log the full response for debugging
                     if (product != null) {
                         String productName = product.getProductName();
                         String ingredients = product.getIngredientsText();
+                        Log.d("ProductDetails", "Ingredients -->: " + product.getIngredientsText());
+
 
                         // Log the ingredients for debugging
                         if (ingredients != null && !ingredients.isEmpty()) {
@@ -83,9 +84,12 @@ public class ProductDetailsActivity extends AppCompatActivity {
                             TextView tvAllergyAlert = findViewById(R.id.tvAllergyAlert);
 
                             tvProductTitle.setText(productName);
-                            tvProductIngredients.setText("Ingredients: " + ingredients);
+
+                            // Now, clean the ingredients
+                            List<String> cleanedIngredients = IngredientCleaner.cleanIngredients(ingredients);
+                            tvProductIngredients.setText("Ingredients: " + cleanedIngredients);
                             // Now, compare allergies with the ingredients
-                            compareAllergiesWithProduct(ingredients, tvAllergyAlert);
+                            compareAllergiesWithProduct(cleanedIngredients, tvAllergyAlert);
                         } else {
                             Toast.makeText(ProductDetailsActivity.this, "No ingredients available for this product.", Toast.LENGTH_SHORT).show();
                         }
@@ -104,26 +108,37 @@ public class ProductDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void compareAllergiesWithProduct(String ingredient, TextView tvAllergyAlert) {
+    private void compareAllergiesWithProduct(List<String> cleanedIngredients, TextView tvAllergyAlert) {
         new Thread(() -> {
             try {
                 // Fetch user allergies from the database
                 List<Allergy> allergies = db.allergyDao().getAllAllergies();
+                Log.d("ProductDetails", "user allergy DB-->: " + allergies.toString());
 
                 // List to hold allergies found in product
                 List<String> foundAllergies = new ArrayList<>();
-                String ingredients = "Milk, Soy, Gluten";// testing sample data
 
-                // Check for matching allergies
+                // Normalize the cleaned ingredients and check against user allergies
                 for (Allergy allergy : allergies) {
-                    if (ingredients != null && ingredients.contains(allergy.name)) {
-                        foundAllergies.add(allergy.name);
+                    Log.d("ProductDetails", "user allergy DB2-->: " + allergy.name + " - " + allergy.isAllergic);
+
+                    // If the allergy is marked as true and the ingredient is found in the product
+                    if (allergy.isAllergic) {
+                        // Loop through the cleaned ingredients and check for allergy matches
+                        for (String ingredient : cleanedIngredients) {
+                            if (ingredient != null && ingredient.toLowerCase().contains(allergy.name.toLowerCase())) {
+                                foundAllergies.add(allergy.name); // Add allergy to found list
+                                Log.d("ProductDetails", "user allergy found-->: " + allergy.name);
+                                break; // No need to check further for this allergy once it's found
+                            }
+                        }
                     }
                 }
 
                 // Display the allergies found in the product
                 runOnUiThread(() -> {
                     if (!foundAllergies.isEmpty()) {
+                        Log.d("ProductDetails", "user all allergies found: " + foundAllergies);
                         tvAllergyAlert.setText("This product contains the following allergens: " + String.join(", ", foundAllergies));
                         tvAllergyAlert.setVisibility(View.VISIBLE);
                     } else {

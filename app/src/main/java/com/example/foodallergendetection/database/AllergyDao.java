@@ -17,4 +17,8 @@ public interface AllergyDao {
 
     @Query("SELECT * FROM allergies")
     List<Allergy> getAllAllergies();
+
+    // Add this new method to delete all allergies
+    @Query("DELETE FROM allergies")
+    void deleteAllAllergies();
 }

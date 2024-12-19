@@ -81,7 +81,9 @@ public class BarcodeScannerActivity extends AppCompatActivity {
         // Set up the Barcode Scanner
         BarcodeScanning.getClient().process(image)
                 .addOnSuccessListener(barcodes -> {
-                    for (Barcode barcode : barcodes) {
+                    // Check if there are any barcodes found
+                    if (!barcodes.isEmpty()) {
+                        Barcode barcode = barcodes.get(0); // Get the first barcode (you can adjust this if necessary)
                         String barcodeValue = barcode.getRawValue();
                         if (barcodeValue != null) {
                             // Once a barcode is scanned, pass the barcode to the product details screen
@@ -89,11 +91,9 @@ public class BarcodeScannerActivity extends AppCompatActivity {
                             intent.putExtra("BARCODE_VALUE", barcodeValue);
                             startActivity(intent);
                             finish(); // Close the scanner activity
-                            break;
                         }
                     }
-                })
-                .addOnFailureListener(e -> {
+                }).addOnFailureListener(e -> {
                     Log.e("BarcodeScanner", "Barcode scan failed", e);
                     Toast.makeText(this, "Scan failed, try again.", Toast.LENGTH_SHORT).show();
                 })
