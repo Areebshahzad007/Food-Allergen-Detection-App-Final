@@ -51,7 +51,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Simulate OTP generation
                 String otp = generateOtp();
-                Log.d("ProductDetails", "otp -->: " + otp);
+                Log.d("fad", "otp -->: " + otp);
 
                 // Send OTP email using SendGrid (run in a background thread)
                 sendOtpInBackground(email, otp);
@@ -59,7 +59,10 @@ public class SignupActivity extends AppCompatActivity {
                 // Pass OTP and email to OTP verification activity
                 Intent intent = new Intent(SignupActivity.this, OtpVerificationActivity.class);
                 intent.putExtra("OTP", otp); // Pass OTP for verification
+                intent.putExtra("fname", firstName); // Pass email for OTP verification
+                intent.putExtra("lname", lastName); // Pass email for OTP verification
                 intent.putExtra("email", email); // Pass email for OTP verification
+                intent.putExtra("pwd", password); // Pass email for OTP verification
                 startActivity(intent);
                 finish();
             } else {

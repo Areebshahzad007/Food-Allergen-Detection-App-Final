@@ -1,50 +1,55 @@
 package com.example.foodallergendetection.database;
 import android.util.Log;
 
-import com.example.foodallergendetection.database.SendGridEmailRequest;
-import com.example.foodallergendetection.database.SendGridService;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 public class SendGridHelper {
 
-    private static final String BASE_URL = "https://api.sendgrid.com/v3/";
+    public static void sendOtpEmail(String recipientEmail, String otp) {
+        Log.d("fad", "starting email  -->: ");
+        // SMTP Server configuration
+        final String smtpHost = "smtp.sendgrid.net";
+        final String smtpPort = "587";
+        final String username = "apikey"; // SendGrid requires 'apikey' as the username
+        final String password = "mlsn.ea78d67781d65f5e2d51893afb832995cbe0ecf92db74716d64f3ff972fee1b8"; // Replace with your actual API Key
 
-    public static void sendOtpEmail(String email, String otp) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        // Email content
+        String subject = "OTP Verification";
+        String body = "Your OTP is: " + otp;
 
-        SendGridService service = retrofit.create(SendGridService.class);
+        // Email properties
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", smtpHost);
+        props.put("mail.smtp.port", smtpPort);
 
-        SendGridEmailRequest.Personalization personalization = new SendGridEmailRequest.Personalization(new String[]{email}, "OTP Verification");
-        SendGridEmailRequest.Content content = new SendGridEmailRequest.Content("text/plain", "Your OTP is: " + otp);
-
-        SendGridEmailRequest request = new SendGridEmailRequest(
-                new SendGridEmailRequest.Personalization[]{personalization},
-                new SendGridEmailRequest.From("from_email@example.com"),
-                new SendGridEmailRequest.Content[]{content}
-        );
-
-        service.sendEmail(request).enqueue(new Callback<Void>() {
+        // Authenticate and create the session
+        Session session = Session.getInstance(props, new Authenticator() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Log.d("SendGrid", "OTP sent successfully");
-                } else {
-                    Log.e("SendGrid", "Failed to send OTP: " + response.message());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("SendGrid", "Error while sending email: ", t);
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
             }
         });
+
+        try {
+            // Compose the email
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("farzeenshahzad18@gmail.com")); // Replace with your verified email
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setSubject(subject);
+            message.setText(body);
+
+            // Send the email
+            Transport.send(message);
+            Log.d("fad", "message sent  -->: ");
+            System.out.println("OTP email sent successfully to " + recipientEmail);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            Log.d("fad", "message not sent  -->: ");
+            System.err.println("Error while sending email: " + e.getMessage());
+        }
     }
 }

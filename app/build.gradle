@@ -62,5 +62,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.8'
     // for sending otp mails
     implementation 'com.sendgrid:sendgrid-java:4.7.0'
+   // implementation 'javax.mail:javax.mail-api:1.6.2'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
+
 
 }
