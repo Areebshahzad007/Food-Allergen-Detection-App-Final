@@ -45,6 +45,7 @@
             android:exported="false" />
         <activity
             android:name=".ProductDetailsActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

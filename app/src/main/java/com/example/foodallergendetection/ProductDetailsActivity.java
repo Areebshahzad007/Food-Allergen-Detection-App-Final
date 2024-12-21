@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
     private static final String BASE_URL = "https://world.openfoodfacts.org/api/v2/";
     private AppDatabase db;
-
+    private Button btnBackToHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         Log.d("ProductDetails", "onCreate called");
         setContentView(R.layout.activity_product_details);
 
+        btnBackToHome = findViewById(R.id.btnBackToHome);
+
+        btnBackToHome.setOnClickListener(v -> onBackPressed());
         // Initialize the database instance
         db = AppDatabase.getInstance(this);
 
@@ -150,5 +154,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
                 Log.e("ProductDetails", "Error comparing allergies: ", e);
             }
         }).start();
+    }
+    @Override
+    public void onBackPressed() {
+        // Navigate back to the home activity
+        super.onBackPressed();
+        Intent intent = new Intent(ProductDetailsActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish(); // Ensure the current activity is removed from the stack
     }
 }

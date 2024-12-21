@@ -74,31 +74,81 @@ public class BarcodeScannerActivity extends AppCompatActivity {
     }
 
 
+//    @OptIn(markerClass = ExperimentalGetImage.class)
+//    private void analyzeImage(ImageProxy imageProxy) {
+//        InputImage image = InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
+//
+//        // Set up the Barcode Scanner
+//        BarcodeScanning.getClient().process(image)
+//                .addOnSuccessListener(barcodes -> {
+//                    // Check if there are any barcodes found
+//                    if (!barcodes.isEmpty()) {
+//                        Barcode barcode = barcodes.get(0); // Get the first barcode (you can adjust this if necessary)
+//                        String barcodeValue = barcode.getRawValue();
+//                        if (barcodeValue != null) {
+//                            // Once a barcode is scanned, pass the barcode to the product details screen
+//                            Intent intent = new Intent(BarcodeScannerActivity.this, ProductDetailsActivity.class);
+//                            intent.putExtra("BARCODE_VALUE", barcodeValue);
+//                            startActivity(intent);
+//                            finish(); // Close the scanner activity
+//
+//                        }
+//                    }
+//                }).addOnFailureListener(e -> {
+//                    Log.e("BarcodeScanner", "Barcode scan failed", e);
+//                    Toast.makeText(this, "Scan failed, try again.", Toast.LENGTH_SHORT).show();
+//                })
+//                .addOnCompleteListener(task -> imageProxy.close());
+//    }
+    private boolean isProcessing = false;
     @OptIn(markerClass = ExperimentalGetImage.class)
     private void analyzeImage(ImageProxy imageProxy) {
+        if (isProcessing) {
+            imageProxy.close(); // Close the frame if processing is ongoing
+            return;
+        }
+
+        // Ensure the image is valid
+        if (imageProxy.getImage() == null) {
+            imageProxy.close(); // Close invalid frames
+            return;
+        }
+
+        isProcessing = true; // Set the processing flag to true
+
+        // Convert the ImageProxy to an InputImage
         InputImage image = InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
 
-        // Set up the Barcode Scanner
+        // Use the Barcode Scanner to process the image
         BarcodeScanning.getClient().process(image)
                 .addOnSuccessListener(barcodes -> {
-                    // Check if there are any barcodes found
+                    // Check if any barcodes are found
                     if (!barcodes.isEmpty()) {
-                        Barcode barcode = barcodes.get(0); // Get the first barcode (you can adjust this if necessary)
+                        Barcode barcode = barcodes.get(0); // Get the first detected barcode
                         String barcodeValue = barcode.getRawValue();
+
                         if (barcodeValue != null) {
-                            // Once a barcode is scanned, pass the barcode to the product details screen
+                            // Pass the barcode value to ProductDetailsActivity
                             Intent intent = new Intent(BarcodeScannerActivity.this, ProductDetailsActivity.class);
                             intent.putExtra("BARCODE_VALUE", barcodeValue);
                             startActivity(intent);
-                            finish(); // Close the scanner activity
+                            finish(); // Close BarcodeScannerActivity
                         }
+                    } else {
+                        Log.d("BarcodeScanner", "No barcodes detected");
                     }
-                }).addOnFailureListener(e -> {
-                    Log.e("BarcodeScanner", "Barcode scan failed", e);
-                    Toast.makeText(this, "Scan failed, try again.", Toast.LENGTH_SHORT).show();
                 })
-                .addOnCompleteListener(task -> imageProxy.close());
+                .addOnFailureListener(e -> {
+                    Log.e("BarcodeScanner", "Barcode processing failed", e);
+                    Toast.makeText(this, "Failed to scan barcode. Try again.", Toast.LENGTH_SHORT).show();
+                })
+                .addOnCompleteListener(task -> {
+                    // Ensure the image frame is closed and reset processing flag
+                    imageProxy.close();
+                    isProcessing = false;
+                });
     }
+
 
     @Override
     protected void onDestroy() {
